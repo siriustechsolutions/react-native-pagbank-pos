@@ -1,12 +1,14 @@
 # react-native-pagbank-pos
 
-## Modulo React Native e Expo com implementação do SDK PagBank para terminais smart POS
+## Modulo React Native e Expo com implementação do SDK PagBank para terminais smart POS. Para criação de aplicativos para maquininha de cartão de crédito da Pagbank.
 
 Esta lib pode ser usado em React Native e Expo, está com a versão mais atual do SDK da PagBank.
 
-Ainda existem algumas implementações a serem feitas
+Para mais informações sobre o SDK: https://developer.pagbank.com.br/docs/integracao-smartpos#suporte-smartpos
 
-Nossa ideia é constuir um modelo básico multiadquirente para facilitar a implementação em terminais smart POS. 
+OBS> Os fluxos básicos estão funcionando porém ainda existem algumas implementações a serem feitas
+
+Nossa ideia é constuir um modelo básico multiadquirente para facilitar a implementação em terminais smart POS.
 Além de vários adquirentes e telas prontas o projeto conta com intefaces para impressoras térmicas, NFC, QrCode e muito mais.
 Este modulo estará disponível no repo: https://github.com/siriustechsolutions/react-native-multi-pos.git
 
@@ -63,7 +65,8 @@ allprojects {
 ## Dúvidas
 
 Estamos a disposição para construir juntos ferramentas para soluções financeiras e facilitar a vida dos devs Brasileiros
-[Sirius Tech](https://siriustechsolucoes.com)
+
+Saiba mais sobre nós em [Sirius Tech](https://siriustechsolucoes.com)
 
 ## License
 
