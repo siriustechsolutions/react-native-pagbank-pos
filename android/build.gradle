@@ -91,6 +91,7 @@ android {
 }
 
 repositories {
+  maven { url "https://github.com/pagseguro/PlugPagServiceWrapper/raw/master" }
   mavenCentral()
   google()
 }
@@ -100,6 +101,13 @@ def kotlin_version = getExtOrDefault("kotlinVersion")
 dependencies {
   implementation "com.facebook.react:react-android"
   implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+
+  implementation 'com.izettle:html2bitmap:1.9'
+  implementation 'com.google.zxing:core:3.4.1'
+
+  implementation 'br.com.uol.pagseguro.plugpagservice.wrapper:wrapper:1.27.2'
+
+  debugImplementation "com.github.tony19:logback-android:2.0.0"
 }
 
 if (isNewArchitectureEnabled()) {
@@ -108,4 +116,14 @@ if (isNewArchitectureEnabled()) {
     libraryName = "PagbankPos"
     codegenJavaPackageName = "com.pagbankpos"
   }
+}
+
+def addMavenRepo(Project project) {
+    project.repositories {
+        maven { url "https://github.com/pagseguro/PlugPagServiceWrapper/raw/master" }
+    }
+}
+
+gradle.projectsEvaluated {
+    rootProject.allprojects.each { addMavenRepo(it) }
 }
