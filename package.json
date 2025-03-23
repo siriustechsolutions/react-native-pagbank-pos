@@ -1,7 +1,7 @@
 {
   "name": "react-native-pagbank-pos",
   "version": "1.0.2",
-  "description": "TODO",
+  "description": "Modulo React Native e Expo com implementação do SDK PagBank para terminais smart POS. Para criação de aplicativos para maquininha de cartão de crédito da Pagbank.",
   "source": "./src/index.tsx",
   "main": "./lib/commonjs/index.js",
   "module": "./lib/module/index.js",
