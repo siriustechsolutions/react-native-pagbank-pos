@@ -1,46 +1,46 @@
 import PagbankPos from './NativePagbankPos';
 
-export enum TransactionType {
+export enum PagBankTransactionType {
   CREDIT = 1,
   DEBIT = 2,
   VOUCHER = 3,
   PIX = 5,
 }
 
-export enum InstallmentType {
+export enum PagBankInstallmentType {
   NO_INSTALLMENT = 1,
   SELLER_INSTALLMENT = 2,
   BUYER_INSTALLMENT = 3,
 }
 
-export interface InitSDKResponse {
+export interface PagBankInitSDKResponse {
   result: number;
   errorCode: string;
   errorMessage: string;
 }
 
-export interface PrintResponse {
+export interface PagBankPrintResponse {
   message: string;
 }
 
-export interface CancelTransactionResponse {
+export interface PagBankCancelTransactionResponse {
   message: string;
 }
 
-export interface VoidTransactionResponse {
+export interface PagBankVoidTransactionResponse {
   message: string;
 }
 
-export interface TransactionRequest {
+export interface PagBankTransactionRequest {
   amount: number;
-  type: TransactionType;
-  installmentType: InstallmentType;
+  type: PagBankTransactionType;
+  installmentType: PagBankInstallmentType;
   installments: number;
   printReceipt: boolean;
   userReference: string;
 }
 
-export interface TransactionResponse {
+export interface PagBankTransactionResponse {
   result: number;
   errorCode?: string;
   message?: string;
@@ -62,53 +62,53 @@ export interface TransactionResponse {
   extendedHolderName?: string;
 }
 
-export async function initSDK(
-  activationCode: string
-): Promise<InitSDKResponse> {
-  return await PagbankPos.initializeAndActivatePinPad(activationCode);
-}
+export const PagBankPosSDK = new (class {
+  async initSDK(activationCode: string): Promise<PagBankInitSDKResponse> {
+    return await PagbankPos.initializeAndActivatePinPad(activationCode);
+  }
 
-export async function makeTransaction({
-  amount,
-  installmentType,
-  installments,
-  printReceipt,
-  type,
-  userReference,
-}: TransactionRequest): Promise<TransactionResponse> {
-  const dataPayment = {
+  async makeTransaction({
     amount,
     installmentType,
     installments,
     printReceipt,
     type,
     userReference,
-  };
+  }: PagBankTransactionRequest): Promise<PagBankTransactionResponse> {
+    const dataPayment = {
+      amount,
+      installmentType,
+      installments,
+      printReceipt,
+      type,
+      userReference,
+    };
 
-  const dataFormatted = JSON.stringify(dataPayment);
-  return await PagbankPos.doPayment(dataFormatted);
-}
+    const dataFormatted = JSON.stringify(dataPayment);
+    return await PagbankPos.doPayment(dataFormatted);
+  }
 
-export async function cancelRunningTransaction(): Promise<CancelTransactionResponse> {
-  return await PagbankPos.cancelRunningTransaction();
-}
+  async cancelRunningTransaction(): Promise<PagBankCancelTransactionResponse> {
+    return await PagbankPos.cancelRunningTransaction();
+  }
 
-export async function voidTransaction(
-  transactionCode: string,
-  transactionId: string
-): Promise<VoidTransactionResponse> {
-  const dataFormatted = JSON.stringify({ transactionCode, transactionId });
-  return await PagbankPos.voidPayment(dataFormatted);
-}
+  async voidTransaction(
+    transactionCode: string,
+    transactionId: string
+  ): Promise<PagBankVoidTransactionResponse> {
+    const dataFormatted = JSON.stringify({ transactionCode, transactionId });
+    return await PagbankPos.voidPayment(dataFormatted);
+  }
 
-export async function printByHtml(html: string): Promise<PrintResponse> {
-  return await PagbankPos.printByHtml(html);
-}
+  async printByHtml(html: string): Promise<PagBankPrintResponse> {
+    return await PagbankPos.printByHtml(html);
+  }
 
-export async function reprintCustomerReceipt(): Promise<PrintResponse> {
-  return await PagbankPos.reprintCustomerReceipt();
-}
+  async reprintCustomerReceipt(): Promise<PagBankPrintResponse> {
+    return await PagbankPos.reprintCustomerReceipt();
+  }
 
-export async function reprintEstablishmentReceipt(): Promise<PrintResponse> {
-  return await PagbankPos.reprintEstablishmentReceipt();
-}
+  async reprintEstablishmentReceipt(): Promise<PagBankPrintResponse> {
+    return await PagbankPos.reprintEstablishmentReceipt();
+  }
+})();

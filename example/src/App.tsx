@@ -9,29 +9,29 @@ import {
   ActivityIndicator,
   Alert,
 } from 'react-native';
+
 import {
-  cancelRunningTransaction,
-  initSDK,
-  makeTransaction,
-  reprintCustomerReceipt,
-  TransactionType,
-  type InitSDKResponse,
-  type TransactionResponse,
+  PagBankPosSDK,
+  PagBankTransactionType,
+  type PagBankInitSDKResponse,
+  type PagBankTransactionResponse,
 } from 'react-native-pagbank-pos';
 
 export default function App() {
-  const [isConnected, setIsConnected] = useState<InitSDKResponse | null>(null);
+  const [isConnected, setIsConnected] = useState<PagBankInitSDKResponse | null>(
+    null
+  );
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [amount, setAmount] = useState<string>('10');
   const [installments, setInstallments] = useState<string>('1');
   const [transactionId, setTransactionId] = useState<string>('');
   const [lastTransaction, setLastTransaction] =
-    useState<TransactionResponse | null>(null);
+    useState<PagBankTransactionResponse | null>(null);
 
   const handleInitialize = async () => {
     try {
       setIsLoading(true);
-      const connected = await initSDK('749879');
+      const connected = await PagBankPosSDK.initSDK('749879');
       setIsConnected(connected);
       Alert.alert(
         'Connection Status',
@@ -44,7 +44,7 @@ export default function App() {
     }
   };
 
-  const handlePayment = async (type: TransactionType) => {
+  const handlePayment = async (type: PagBankTransactionType) => {
     if (!isConnected) {
       Alert.alert('Error', 'POS not connected. Please initialize first.');
       return;
@@ -55,7 +55,7 @@ export default function App() {
       const amountInCents = Math.round(parseFloat(amount) * 100);
       const installmentsNum = parseInt(installments, 10);
 
-      const result = await makeTransaction({
+      const result = await PagBankPosSDK.makeTransaction({
         amount: amountInCents,
         type,
         installments: installmentsNum,
@@ -89,7 +89,7 @@ export default function App() {
 
     try {
       setIsLoading(true);
-      const result = await cancelRunningTransaction();
+      const result = await PagBankPosSDK.cancelRunningTransaction();
       Alert.alert('Cancellation Result', result.message);
     } catch (error) {
       Alert.alert(
@@ -110,7 +110,7 @@ export default function App() {
 
     try {
       setIsLoading(true);
-      await reprintCustomerReceipt();
+      await PagBankPosSDK.reprintCustomerReceipt();
       Alert.alert('Success', 'Receipt printed successfully');
     } catch (error) {
       Alert.alert('Print Error', `Failed to print receipt: ${error}`);
@@ -169,17 +169,17 @@ export default function App() {
           <View style={styles.paymentButtons}>
             <Button
               title="Credit"
-              onPress={() => handlePayment(TransactionType.CREDIT)}
+              onPress={() => handlePayment(PagBankTransactionType.CREDIT)}
               disabled={isLoading}
             />
             <Button
               title="Debit"
-              onPress={() => handlePayment(TransactionType.DEBIT)}
+              onPress={() => handlePayment(PagBankTransactionType.DEBIT)}
               disabled={isLoading}
             />
             <Button
               title="Pix"
-              onPress={() => handlePayment(TransactionType.PIX)}
+              onPress={() => handlePayment(PagBankTransactionType.PIX)}
               disabled={isLoading}
             />
           </View>

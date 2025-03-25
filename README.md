@@ -28,13 +28,13 @@ yarn add react-native-pagbank-pos
 Exemplo de uso mais extensivo você pode encontrar na pasta [example] presente na raiz deste projeto
 
 ```js
-import { initSDK } from 'react-native-pagbank-pos';
+import { PagBankPosSDK } from 'react-native-pagbank-pos';
 
-const result = await initSDK('1234');
+const result = await PagBankPosSDK.initSDK('749879');
 ```
 
 ```js
-const result = await makeTransaction({
+const result = await PagBankPosSDK.makeTransaction({
   amount: 100,
   type,
   installments: 1,
@@ -44,7 +44,7 @@ const result = await makeTransaction({
 });
 ```
 
-## Nesta primeira versão a impressão será feita apenas através de uma string HTML
+## Nesta versão a impressão será feita apenas através de uma string HTML, em uma futura terá impressão por uma imagem
 
 # Configuração no Expo
 
