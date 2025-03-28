@@ -44,6 +44,34 @@ const result = await PagBankPosSDK.makeTransaction({
 });
 ```
 
+## Eventos durantes uma transação
+
+Acompanhe os status de atualização de uma tranção com uso de Listener, a cada atualização a adquirente notifica o status em tempo real
+No código de exemplo vc pode obsevar melhor essa implementação.
+
+```js
+  /** Eventos de status da transação */
+  useEventEmitter((event: any) => {
+    console.info('MAKE_TRANSACTION_PROGRESS', event);
+
+    if (Number(event.status) === 0) {
+      // Quando solicita para aproximar o cartão
+    }
+
+    if (
+      Number(event.status) === -1 ||
+      Number(event.status) === 1 ||
+      Number(event.status) === 5
+    ) {
+      // Sucesso, cancelamento ou falha na transação
+    }
+
+    if (Number(event.status) === 4) {
+      //pagamento finalizado
+    }
+  });
+```
+
 ## Nesta versão a impressão será feita apenas através de uma string HTML, em uma futura terá impressão por uma imagem
 
 # Configuração no Expo
