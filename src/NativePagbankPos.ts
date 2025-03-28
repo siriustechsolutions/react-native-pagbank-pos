@@ -1,5 +1,6 @@
 import type { TurboModule } from 'react-native';
-import { TurboModuleRegistry } from 'react-native';
+import { TurboModuleRegistry } from 'react-native'; 
+
 import type {
   PagBankCancelTransactionResponse,
   PagBankInitSDKResponse,
@@ -19,6 +20,8 @@ export interface Spec extends TurboModule {
   printByHtml(html: string): Promise<PagBankPrintResponse>;
   reprintCustomerReceipt(): Promise<PagBankPrintResponse>;
   reprintEstablishmentReceipt(): Promise<PagBankPrintResponse>;
+  addListener(eventName: string): void;
+  removeListeners(count: number): void;
 }
 
 export default TurboModuleRegistry.getEnforcing<Spec>('PagbankPos');

@@ -111,4 +111,12 @@ export const PagBankPosSDK = new (class {
   async reprintEstablishmentReceipt(): Promise<PagBankPrintResponse> {
     return await PagbankPos.reprintEstablishmentReceipt();
   }
+
+  addListener(eventName: string): void {
+    PagbankPos.addListener(eventName);
+  }
+
+  removeListeners(count: number): void {
+    PagbankPos.removeListeners(count);
+  }
 })();

@@ -424,6 +424,10 @@ class PagbankPosModule(reactContext: ReactApplicationContext) :
       executor.shutdown()
   }
 
+  override fun addListener(eventName: String?) = Unit;
+
+  override fun removeListeners(count: Double) = Unit;
+
   companion object {
       const val NAME = "PagbankPos"
   }

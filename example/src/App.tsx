@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   Text,
   View,
@@ -8,6 +8,7 @@ import {
   TextInput,
   ActivityIndicator,
   Alert,
+  NativeEventEmitter,
 } from 'react-native';
 
 import {
@@ -27,6 +28,44 @@ export default function App() {
   const [transactionId, setTransactionId] = useState<string>('');
   const [lastTransaction, setLastTransaction] =
     useState<PagBankTransactionResponse | null>(null);
+
+  const moduleEventEmitter = new NativeEventEmitter(PagBankPosSDK);
+
+  const useEventEmitter = (callback: Function) => {
+    useEffect(() => {
+      const subscription = moduleEventEmitter.addListener(
+        'MAKE_TRANSACTION_PROGRESS',
+        (event: any) => {
+          callback(event);
+        }
+      );
+
+      return () => {
+        subscription.remove();
+      };
+    }, []);
+  };
+
+  /** Eventos de status da transação */
+  useEventEmitter((event: any) => {
+    console.info('MAKE_TRANSACTION_PROGRESS', event);
+
+    if (Number(event.status) === 0) {
+      // Quando solicita para aproximar o cartão
+    }
+
+    if (
+      Number(event.status) === -1 ||
+      Number(event.status) === 1 ||
+      Number(event.status) === 5
+    ) {
+      // Sucesso, cancelamento ou falha na transação
+    }
+
+    if (Number(event.status) === 4) {
+      //pagamento finalizado
+    }
+  });
 
   const handleInitialize = async () => {
     try {
