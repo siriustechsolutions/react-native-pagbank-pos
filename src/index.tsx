@@ -62,6 +62,11 @@ export interface PagBankTransactionResponse {
   extendedHolderName?: string;
 }
 
+export type PagBankProgressEventName =
+  | 'VOID_TRANSACTION_PROGRESS'
+  | 'MAKE_TRANSACTION_PROGRESS'
+  | string;
+
 export const PagBankPosSDK = new (class {
   async initSDK(activationCode: string): Promise<PagBankInitSDKResponse> {
     return await PagbankPos.initializeAndActivatePinPad(activationCode);
