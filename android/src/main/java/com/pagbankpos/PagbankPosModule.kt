@@ -37,6 +37,8 @@ class PagbankPosModule(reactContext: ReactApplicationContext) :
   private var plugPag: PlugPag? = null
   private var messageCard: String? = null
   private val appVersion: String
+  private var countPassword = 0;
+  private var getPassword: String = "";
 
   init {
       appVersion = try {
@@ -330,10 +332,40 @@ class PagbankPosModule(reactContext: ReactApplicationContext) :
 
               val params = Arguments.createMap()
               params.putInt("code", plugPagEventData.eventCode)
-              params.putString("message", messageCard)
-              reactContext
+
+               if (plugPagEventData.eventCode == PlugPagEventData.EVENT_CODE_DIGIT_PASSWORD || plugPagEventData.eventCode == PlugPagEventData.EVENT_CODE_NO_PASSWORD) {
+                if (plugPagEventData.eventCode == PlugPagEventData.EVENT_CODE_DIGIT_PASSWORD) {
+                    countPassword++;
+                } else if (plugPagEventData.eventCode == PlugPagEventData.EVENT_CODE_NO_PASSWORD) {
+                    countPassword = 0;
+                }
+
+                if (countPassword == 0 ) {
+                    getPassword = "Senha:";
+                } else if (countPassword == 1) {
+                    getPassword = "Senha: *";
+                } else if (countPassword == 2) {
+                    getPassword = "Senha: **";
+                } else if (countPassword == 3) {
+                    getPassword = "Senha: ***";
+                } else if (countPassword == 4) {
+                    getPassword = "Senha: ****";
+                } else if (countPassword == 5) {
+                    getPassword = "Senha: *****";
+                } else if (countPassword == 6 || countPassword > 6) {
+                    getPassword = "Senha: ******";
+                }
+
+                params.putString("message", getPassword)
+                reactContext
                   .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter::class.java)
                   .emit("VOID_TRANSACTION_PROGRESS", params)
+                } else {
+                   params.putString("message", messageCard)
+                    reactContext
+                    .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter::class.java)
+                    .emit("VOID_TRANSACTION_PROGRESS", params)
+                }
           }
       })
 

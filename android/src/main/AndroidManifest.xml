@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.pagbankpos"   xmlns:tools="http://schemas.android.com/tools">
+          package="com.pagbankpos" xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="br.com.uol.pagseguro.permission.MANAGE_PAYMENTS" />
     <uses-permission android:name="android.permission.INTERNET" />
