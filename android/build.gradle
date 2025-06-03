@@ -105,7 +105,7 @@ dependencies {
   implementation 'com.izettle:html2bitmap:1.9'
   implementation 'com.google.zxing:core:3.4.1'
 
-  implementation 'br.com.uol.pagseguro.plugpagservice.wrapper:wrapper:1.27.2'
+  implementation 'br.com.uol.pagseguro.plugpagservice.wrapper:wrapper:1.30.51'
 
   debugImplementation "com.github.tony19:logback-android:2.0.0"
 }

@@ -65,6 +65,7 @@ export interface PagBankTransactionResponse {
 export type PagBankProgressEventName =
   | 'VOID_TRANSACTION_PROGRESS'
   | 'MAKE_TRANSACTION_PROGRESS'
+  | 'PRINT_PROGRESS'
   | string;
 
 export const PagBankPosSDK = new (class {

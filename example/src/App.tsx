@@ -40,15 +40,23 @@ export default function App() {
         }
       );
 
+      const subscriptionPrint = moduleEventEmitter.addListener(
+        'PRINT_PROGRESS',
+        (event: any) => {
+          callback(event);
+        }
+      );
+
       return () => {
         subscription.remove();
+        subscriptionPrint.remove();
       };
     }, []);
   };
 
   /** Eventos de status da transação */
   useEventEmitter((event: any) => {
-    console.info('MAKE_TRANSACTION_PROGRESS', event);
+    console.info('useEventEmitter', event);
 
     if (Number(event.status) === 0) {
       // Quando solicita para aproximar o cartão
@@ -140,6 +148,19 @@ export default function App() {
     }
   };
 
+  // Print by HTML
+  const handlePrintByHtml = async () => {
+    try {
+      setIsLoading(true);
+      await PagBankPosSDK.printByHtml('<h1>Hello World</h1>');
+      Alert.alert('Success', 'Printed HTML successfully');
+    } catch (error) {
+      Alert.alert('Print Error', `Failed to print HTML: ${error}`);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   // Print a receipt
   const handlePrintReceipt = async () => {
     if (!lastTransaction) {
@@ -179,6 +200,17 @@ export default function App() {
                 ? 'Connected'
                 : 'Disconnected'}
           </Text>
+        </View>
+
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Impressão livre</Text>
+          <View style={styles.row}>
+            <Button
+              title="Imprimir HTML"
+              onPress={handlePrintByHtml}
+              disabled={isLoading}
+            />
+          </View>
         </View>
 
         <View style={styles.section}>
